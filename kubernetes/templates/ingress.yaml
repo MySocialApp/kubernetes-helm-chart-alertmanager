@@ -15,7 +15,8 @@ metadata:
 {{- if .Values.ingress.labels }}
 {{ toYaml .Values.ingress.labels | indent 4 }}
 {{- end }}
-  name: {{ template "alertmanager.fullname" . }}
+  name: {{ template "alertmanager.name" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   rules:
     - host: "{{ .Values.ingress.fqdn }}"
@@ -23,7 +24,7 @@ spec:
         paths:
           - path: "{{ .Values.routePrefix }}"
             backend:
-              serviceName: {{ template "alertmanager.fullname" . }}
+              serviceName: {{ template "alertmanager.name" . }}
               servicePort: 9093
 {{- if .Values.ingress.tls }}
   tls:

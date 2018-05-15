@@ -12,7 +12,8 @@ metadata:
     {{- if .Values.additionalServiceMonitorLabels }}
 {{ toYaml .Values.additionalServiceMonitorLabels | indent 4 }}
     {{- end }}
-  name: {{ template "alertmanager.fullname" . }}
+  name: {{ template "alertmanager.name" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   jobLabel: app
   selector:

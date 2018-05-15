@@ -14,7 +14,8 @@ metadata:
 {{- if .Values.service.labels }}
 {{ toYaml .Values.service.labels | indent 4 }}
 {{- end }}
-  name: {{ template "alertmanager.fullname" . }}
+  name: {{ template "alertmanager.name" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   clusterIP: "{{ .Values.service.clusterIP }}"
 {{- if .Values.service.externalIPs }}
@@ -36,6 +37,9 @@ spec:
       port: 9093
       targetPort: 9093
       protocol: TCP
+    - name: web
+      port: 80
+      targetPort: 9093
   selector:
     alertmanager: {{ .Release.Name }}
     app: {{ template "alertmanager.name" . }}

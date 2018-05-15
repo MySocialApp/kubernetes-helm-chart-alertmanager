@@ -11,6 +11,7 @@ metadata:
 {{ toYaml .Values.labels | indent 4 }}
 {{- end }}
   name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   baseImage: "{{ .Values.image.repository }}"
 {{- if .Values.externalUrl }}
@@ -18,7 +19,7 @@ spec:
 {{- else if .Values.ingress.fqdn }}
   externalUrl: http://{{ .Values.ingress.fqdn }}{{ .Values.routePrefix }}
 {{- else }}
-  externalUrl: http://{{ template "alertmanager.fullname" . }}.{{ .Release.Namespace }}:9093
+  externalUrl: http://{{ template "alertmanager.name" . }}.{{ .Release.Namespace }}:9093
 {{- end }}
 {{- if .Values.nodeSelector }}
   nodeSelector:
